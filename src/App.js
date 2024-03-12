@@ -1,12 +1,15 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import MemoList from './MemoList';
 import AddButton from './AddButton';
 import MemoEdit from './MemoEdit';
 
 function App() {
-  const [memos, setMemos] = useState([]);
+  const [memos, setMemos] = useState(() => {
+    const storageMemo = localStorage.getItem("Memos");
+    return storageMemo ? JSON.parse(storageMemo) : [];
+  });
   const [selectedMemo, setSelectedMemo] = useState(null);
 
   function handleMemoAdd() {
@@ -32,6 +35,10 @@ function App() {
   function handleMemoSelect(memo) {
     setSelectedMemo(memo);
   }
+
+  useEffect(() => {
+    localStorage.setItem("Memos", JSON.stringify(memos));
+  }, [memos]);
 
   return (
     <>
