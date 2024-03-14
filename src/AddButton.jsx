@@ -1,7 +1,10 @@
+import { useLogin } from "./AuthContext";
+
 function AddButton({ onMemoAdd }) {
+  const { isLogin } = useLogin();
   return (
     <>
-      <button onClick={onMemoAdd}>+</button>
+      {isLogin && <button onClick={onMemoAdd}>+</button>}
     </>
   );
 }

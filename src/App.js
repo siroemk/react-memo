@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import MemoList from './MemoList';
 import AddButton from './AddButton';
 import MemoEdit from './MemoEdit';
+import AuthButton from './AuthButton';
+import { AuthProvider } from './AuthContext';
 
 function App() {
   const [memos, setMemos] = useState(() => {
@@ -41,18 +43,19 @@ function App() {
   }, [memos]);
 
   return (
-    <>
-      <MemoList memos={memos} onMemoSelect={handleMemoSelect} />
+    <AuthProvider>
       <AddButton onMemoAdd={handleMemoAdd} />
-      {  selectedMemo !== null &&(
-        <MemoEdit
-          onMemoEdit={handleMemoEdit}
-          onMemoDelete={handleMemoDelete}
-          memo={selectedMemo}
-        />
-        )
-      }
-    </> 
+      <AuthButton />
+      <MemoList memos={memos} onMemoSelect={handleMemoSelect} />
+        {  selectedMemo !== null &&(
+          <MemoEdit
+            onMemoEdit={handleMemoEdit}
+            onMemoDelete={handleMemoDelete}
+            memo={selectedMemo}
+          />
+          )
+        }
+    </AuthProvider>
   );
 }
 
